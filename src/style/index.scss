@@ -1,0 +1,11 @@
+body {
+    div#app {
+        color: green;
+        font-size: 12px;
+    }
+    div.img{
+        width: 100px;
+        height: 50px;
+        background: url('../assets/img/same.png')
+    }
+}
