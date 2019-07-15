@@ -27,13 +27,13 @@ let config = {
             loader: "babel-loader",
             query: {
               presets: ["@babel/preset-env"],
-              plugins: ["@babel/syntax-dynamic-import"]
+              plugins: [["@babel/syntax-dynamic-import"]],
             }
           }
         ]
       },
       {
-        test: /\.(png)|(jpe?g)|(svg)/,
+        test: /\.(png|jpe?g|svg)$/,
         use: [
           {
             loader: "url-loader",
@@ -42,6 +42,20 @@ let config = {
               name: '[name].[ext]',
               outputPath: 'images/',
               publicPath: '../images/'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|ttf)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 500,
+              publicPath: '../fonts',
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
             }
           }
         ]

@@ -12,13 +12,26 @@ const devConfig = merge(baseConfig, {
                     'css-loader',
                     'sass-loader'
                 ]
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
             }
         ]
     },
     devServer: {
-        port: 3000,
+        port: 8088,
         host: 'localhost'
     }
 })
 console.log(devConfig)
+
+// let compiler = webpack(devConfig)
+// compiler.run()
+
+
 module.exports = devConfig

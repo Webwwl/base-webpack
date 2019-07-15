@@ -1,4 +1,5 @@
 body {
+    font-size: 14px;
     div#app {
         color: green;
         font-size: 12px;
@@ -7,5 +8,30 @@ body {
         width: 100px;
         height: 50px;
         background: url('../assets/img/same.png')
+    }
+}
+
+.container {
+    background: red;
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@mixin dpr-bg-img($str, $ext: 'png') {
+    @media only screen and (min-device-pixel-ratio: 1) {
+        background: url('@/assets/img' + $str + $ext);
+        color:  red;
+
+    }
+    @media only screen and (min-device-pixel-ratio: 2) {
+        background: url('@/assets/img' + $str + '@2x' + ext);
+    color:  red;
+
+    }
+    @media only screen and (min-device-pixel-ratio: 3) {
+        background: url('@/assets/img' + $str + '@3x' + ext);
+        color:  red;  
     }
 }
