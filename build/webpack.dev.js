@@ -1,7 +1,35 @@
 const merge = require('webpack-merge')
 const webpack = require('webpack')
 let baseConfig  = require("./webpack.base")
+const glob = require('glob')
+const path = require('path')
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+// 动态html && entry
+function setEntryAndHtml() {
+    const entryFiles = glob.sync(path.join(__dirname, '../src/*/index.js'))
+    console.log("TCL: setEntryAndHtml -> entryFiles", entryFiles)
+    const entry = {}, htmlPlugins = []
+    entryFiles.map((entryPath) => {
+        let entryName = entryPath.match(/src\/(.*)\/index\.js$/)
+        entryName = entryName && entryName[1]
+        entry[entryName] = entryPath
+        htmlPlugins.push( new HtmlWebpackPlugin({
+            template: path.join(__dirname, `../index.html`),
+            chunks: [entryName],
+            filename: `${entryName}.html`
+        }))
+    })
+    return {
+        entry,
+        htmlPlugins
+    }
+}
+
+let { entry, htmlPlugins } = setEntryAndHtml()
+
 const devConfig = merge(baseConfig, {
+    entry,
     mode: 'development',
     module: {
         rules: [
@@ -26,7 +54,10 @@ const devConfig = merge(baseConfig, {
     devServer: {
         port: 8088,
         host: 'localhost'
-    }
+    },
+    plugins: [
+        ...htmlPlugins
+    ]
 })
 console.log(devConfig)
 
