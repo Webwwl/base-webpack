@@ -2,15 +2,36 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+function resolve(filePath) {
+  return path.join(__dirname, '..', filePath)
+}
+
 let config = {
   output: {
-    path: path.join(__dirname, "../dist"),
+    path: resolve('dist'),
     filename: "[name].boundle.[hash].js",
     chunkFilename: "[name].async.[hash].js"
   },
   resolve: {
     alias: {
-      "@": path.join(__dirname, "../src")
+      "@": resolve('src')
+    }
+  },
+  optimization: {
+    splitChunks: {
+      minSize: 1,
+      cacheGroups: {
+        // vendor: {
+        //   test: resolve('/node_modules/'),
+        //   chunks: 'all',
+        //   minChunks: 2
+        // },
+        common: {
+          chunks: 'all',
+          minChunks: 3,
+          name: 'common'
+        }
+      }
     }
   },
   module: {
@@ -21,10 +42,6 @@ let config = {
         use: [
           {
             loader: "babel-loader",
-            query: {
-              presets: ["@babel/preset-env"],
-              plugins: [["@babel/syntax-dynamic-import"]],
-            }
           }
         ]
       },
@@ -60,7 +77,11 @@ let config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "../index.html")
+      template: resolve('index.html')
+    }),
+    new webpack.ProvidePlugin({
+      '$': 'jquery',
+      'jquery': 'jquery'
     })
   ]
 };

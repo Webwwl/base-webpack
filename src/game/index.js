@@ -1,4 +1,12 @@
-const div = document.createElement('div')
-div.innerHTML = 'let play games'
+// import { sayHello } from '../common/common'
+const div1 = document.createElement('div')
+div1.innerHTML = 'let play games'
 
-document.body.appendChild(div);
+const div = document.createElement('div')
+div.innerText = 'dynamic import '
+div.onclick = function () {
+  import('../common/common').then( common => {
+    console.log('get common', common)
+  })
+}
+document.body.appendChild(div)

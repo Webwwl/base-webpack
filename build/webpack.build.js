@@ -18,7 +18,7 @@ function setEntryAndHtml() {
         entry[entryName] = entryPath
         htmlPlugins.push( new HtmlWebpackPlugin({
             template: path.join(__dirname, `../index.html`),
-            chunks: [entryName],
+            chunks: [entryName, 'common', 'game'],
             filename: `${entryName}.html`
         }))
     })
@@ -32,7 +32,7 @@ let { entry, htmlPlugins } = setEntryAndHtml()
 
 const buildConfig = merge(baseConfig, {
     entry,
-    mode: 'development',
+    mode: 'none',
     // mode: 'production',
     output: {
         publicPath: './',
@@ -73,7 +73,8 @@ const buildConfig = merge(baseConfig, {
             filename: 'style/[name].[hash].css',
             chunkFilename: 'style/[id].css'
         }),
-        new Clean()
+        new Clean(),
+        new webpack.optimize.ModuleConcatenationPlugin()
     ].concat(htmlPlugins)
 })
 module.exports = buildConfig

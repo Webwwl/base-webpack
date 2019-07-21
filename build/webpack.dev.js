@@ -16,7 +16,7 @@ function setEntryAndHtml() {
         entry[entryName] = entryPath
         htmlPlugins.push( new HtmlWebpackPlugin({
             template: path.join(__dirname, `../index.html`),
-            chunks: [entryName],
+            chunks: [entryName,],
             filename: `${entryName}.html`
         }))
     })
@@ -24,6 +24,10 @@ function setEntryAndHtml() {
         entry,
         htmlPlugins
     }
+}
+
+function resolve(filePath) {
+    return path.join(__dirname, '..', filePath);
 }
 
 let { entry, htmlPlugins } = setEntryAndHtml()
@@ -51,9 +55,11 @@ const devConfig = merge(baseConfig, {
             }
         ]
     },
+    // devtool: 'source-map',
     devServer: {
         port: 8088,
-        host: 'localhost'
+        host: 'localhost',
+        contentBase: resolve('dist')
     },
     plugins: [
         ...htmlPlugins
