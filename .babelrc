@@ -4,7 +4,7 @@
       "targets": {
         "chrome": 67
       }
-    }]
+    }, "@babel/preset-react"]
   ],
   "plugins": [
     "@babel/transform-runtime",

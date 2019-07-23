@@ -1,12 +1,15 @@
 const merge = require('webpack-merge')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const Clean = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const baseConfig = require("./webpack.base")
 const glob = require('glob')
 const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+const { resolvePath } = require('./utils')
 // 动态html && entry
 function setEntryAndHtml() {
     const entryFiles = glob.sync(path.join(__dirname, '../src/*/index.js'))
@@ -69,12 +72,20 @@ const buildConfig = merge(baseConfig, {
         ]
     },
     plugins: [
+        new webpack.ProgressPlugin(),
         new MiniCssExtractPlugin({
             filename: 'style/[name].[hash].css',
             chunkFilename: 'style/[id].css'
         }),
-        new Clean(),
-        new webpack.optimize.ModuleConcatenationPlugin()
-    ].concat(htmlPlugins)
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ['**/*', '!vendor/**']
+        }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new BundleAnalyzerPlugin()
+    ].concat([...htmlPlugins,
+        new AddAssetHtmlPlugin({
+            filepath: resolvePath('dist/vendor/vendor.*.js')
+        })
+    ])
 })
 module.exports = buildConfig

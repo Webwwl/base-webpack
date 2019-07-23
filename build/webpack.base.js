@@ -2,19 +2,17 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-function resolve(filePath) {
-  return path.join(__dirname, '..', filePath)
-}
+const { resolvePath } = require('./utils')
 
 let config = {
   output: {
-    path: resolve('dist'),
+    path: resolvePath("dist"),
     filename: "[name].boundle.[hash].js",
     chunkFilename: "[name].async.[hash].js"
   },
   resolve: {
     alias: {
-      "@": resolve('src')
+      "@": resolvePath("src")
     }
   },
   optimization: {
@@ -22,14 +20,14 @@ let config = {
       minSize: 1,
       cacheGroups: {
         // vendor: {
-        //   test: resolve('/node_modules/'),
+        //   test: resolvePath('/node_modules/'),
         //   chunks: 'all',
         //   minChunks: 2
         // },
         common: {
-          chunks: 'all',
+          chunks: "all",
           minChunks: 3,
-          name: 'common'
+          name: "common"
         }
       }
     }
@@ -41,7 +39,7 @@ let config = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "babel-loader",
+            loader: "babel-loader"
           }
         ]
       },
@@ -52,9 +50,9 @@ let config = {
             loader: "url-loader",
             options: {
               limit: 10000,
-              name: '[name].[ext]',
-              outputPath: 'images/',
-              publicPath: '../images/'
+              name: "[name].[ext]",
+              outputPath: "images/",
+              publicPath: "../images/"
             }
           }
         ]
@@ -66,9 +64,9 @@ let config = {
             loader: "url-loader",
             options: {
               limit: 500,
-              publicPath: '../fonts',
-              name: '[name].[ext]',
-              outputPath: 'fonts/',
+              publicPath: "../fonts",
+              name: "[name].[ext]",
+              outputPath: "fonts/"
             }
           }
         ]
@@ -76,12 +74,12 @@ let config = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: resolve('index.html')
-    }),
     new webpack.ProvidePlugin({
-      '$': 'jquery',
-      'jquery': 'jquery'
+      $: "jquery",
+      jquery: "jquery"
+    }),
+    new webpack.DllReferencePlugin({
+      manifest: resolvePath("dist/vendor/manifest.json")
     })
   ]
 };

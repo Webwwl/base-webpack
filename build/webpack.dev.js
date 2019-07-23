@@ -4,7 +4,9 @@ let baseConfig  = require("./webpack.base")
 const glob = require('glob')
 const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
+const { resolvePath } = require('./utils')
 // 动态html && entry
 function setEntryAndHtml() {
     const entryFiles = glob.sync(path.join(__dirname, '../src/*/index.js'))
@@ -25,11 +27,6 @@ function setEntryAndHtml() {
         htmlPlugins
     }
 }
-
-function resolve(filePath) {
-    return path.join(__dirname, '..', filePath);
-}
-
 let { entry, htmlPlugins } = setEntryAndHtml()
 
 const devConfig = merge(baseConfig, {
@@ -59,10 +56,13 @@ const devConfig = merge(baseConfig, {
     devServer: {
         port: 8088,
         host: 'localhost',
-        contentBase: resolve('dist')
+        contentBase: resolvePath('dist')
     },
     plugins: [
-        ...htmlPlugins
+        ...htmlPlugins,
+        new AddAssetHtmlPlugin({
+            filepath: resolvePath('dist/vendor/vendor.*.js')
+        })
     ]
 })
 console.log(devConfig)
