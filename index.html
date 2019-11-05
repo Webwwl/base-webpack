@@ -8,11 +8,47 @@
       href="https://cdn.bootcss.com/normalize/8.0.1/normalize.css"
       rel="stylesheet"
     />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      div {
+        height: 100px;
+        width: 100%;
+      }
+      .div1 {
+        position: absolute;
+        will-change: opacity;
+        top: 0;
+        z-index: 2;
+        background: red;
+      }
+      .div2 {
+        position: relative;
+        margin-top: 100px;
+        background: green;
+      }
+      .div3 {
+        position: absolute;
+        z-index: 1;
+        background: blue;
+      }
+      .div4 {
+        float: left;
+        margin-top: 100px;
+        z-index: 1;
+        background: yellow;
+      }
+      
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   </head>
-  <body> 
-    <div id="app"></div>
+  <body>
+    <script>
+      let div1 = document.querySelector('.div1')
+
+      function run() {
+      }
+    </script>
   </body>
-  <script>
-  </script>
-  <script></script>
 </html>

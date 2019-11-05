@@ -2,30 +2,30 @@
 // import "@babel/polyfill"
 // import "./style/index.less";
 // import "./js/tap.js";
-import * as _ from 'lodash'
-import $ from 'jquery'
-// import { sayHello } from '../common/common'
-// import { addMask } from "./js/lib";
-// import { remInit } from "./js/rem";
-// import { red } from "ansi-colors";
-// import '@/style/main.scss';
+// import * as _ from 'lodash'
+// import $ from 'jquery'
+// import { __await } from 'tslib';
+// import './style/main.scss'
+// import { ClickAnimate } from './js/click-animate'
+// let utils = require('./js/utils')
+/* import { sayHello } from '../common/common'
+import { addMask } from "./js/lib";
+import { remInit } from "./js/rem";
+import { red } from "ansi-colors";
+import '@/style/main.scss'; */
+
+import '../test'
+
+import { BehaviorSubject } from 'rxjs'
+
 window.getEl = function getEl(selector) {
   return document.querySelector(selector);
 };
 
-const div = document.createElement('div')
-div.innerText = 'dynamic import '
-div.className = 'dynamic'
-div.onclick = function () {
-  import('../common/common').then( common => {
-    console.log('get common', common)
-  })
-}
-document.body.appendChild(div)
+const value$ = new BehaviorSubject({a: 1})
 
-$('.dynamic').css({
-  color: 'red'
-})
-var a = [1,2]
-a = _.map(a, (val) => val * val)
-console.log('a:', a)
+value$.subscribe( res => console.log('get value:', res))
+
+value$.next({a: 2})
+
+console.log(Greet_text)

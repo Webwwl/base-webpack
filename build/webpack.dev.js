@@ -1,5 +1,4 @@
 const merge = require('webpack-merge')
-const webpack = require('webpack')
 let baseConfig  = require("./webpack.base")
 const glob = require('glob')
 const path = require('path')
@@ -10,7 +9,6 @@ const { resolvePath } = require('./utils')
 // 动态html && entry
 function setEntryAndHtml() {
     const entryFiles = glob.sync(path.join(__dirname, '../src/*/index.js'))
-    console.log("TCL: setEntryAndHtml -> entryFiles", entryFiles)
     const entry = {}, htmlPlugins = []
     entryFiles.map((entryPath) => {
         let entryName = entryPath.match(/src\/(.*)\/index\.js$/)
@@ -32,6 +30,7 @@ let { entry, htmlPlugins } = setEntryAndHtml()
 const devConfig = merge(baseConfig, {
     entry,
     mode: 'development',
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -65,7 +64,6 @@ const devConfig = merge(baseConfig, {
         })
     ]
 })
-console.log(devConfig)
 
 // let compiler = webpack(devConfig)
 // compiler.run()

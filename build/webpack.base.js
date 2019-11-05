@@ -1,6 +1,5 @@
-const path = require("path");
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const { resolvePath } = require('./utils')
 
@@ -38,9 +37,8 @@ let config = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: "babel-loader"
-          }
+          'eslint-loader',
+          'babel-loader',
         ]
       },
       {

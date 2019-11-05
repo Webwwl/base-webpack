@@ -8,6 +8,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const FileListPlugin = require('../plugins/FileListPlugin')
 
 const { resolvePath } = require('./utils')
 // 动态html && entry
@@ -81,7 +82,10 @@ const buildConfig = merge(baseConfig, {
             cleanOnceBeforeBuildPatterns: ['**/*', '!vendor/**']
         }),
         new webpack.optimize.ModuleConcatenationPlugin(),
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin(),
+        new FileListPlugin({
+            filename: 'fileList.md'
+        })
     ].concat([...htmlPlugins,
         new AddAssetHtmlPlugin({
             filepath: resolvePath('dist/vendor/vendor.*.js')
